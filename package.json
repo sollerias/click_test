@@ -1,0 +1,52 @@
+{
+  "name": "click_test",
+  "version": "1.0.0",
+  "description": "Click catcher.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "DEBUG=server:debug NODE_ENV=development nodemon src/index.js",
+    "build": "NODE_ENV=production nodemon src/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sollerias/click_test.git"
+  },
+  "author": "Gleb Tregubov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sollerias/click_test/issues"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {}
+  },
+  "homepage": "https://github.com/sollerias/click_test#readme",
+  "dependencies": {
+    "@hapi/joi": "17.1.1",
+    "chalk": "4.1.0",
+    "cors": "2.8.5",
+    "debug": "4.3.1",
+    "dotenv": "8.2.0",
+    "express": "4.17.1",
+    "helmet": "4.4.1",
+    "hpp": "0.2.3",
+    "lodash": "4.17.15",
+    "moment-timezone": "0.5.28",
+    "rate-limiter-flexible": "2.2.1",
+    "request-promise-native": "1.0.8",
+    "simple-node-logger": "18.12.24"
+  },
+  "devDependencies": {
+    "@jest/globals": "26.6.2",
+    "eslint": "7.20.0",
+    "eslint-config-airbnb-base": "14.2.1",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jest": "24.1.0",
+    "jest": "26.6.3",
+    "jest-cli": "26.6.3",
+    "nodemon": "2.0.7",
+    "supertest": "6.1.3"
+  }
+}
