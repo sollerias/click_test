@@ -6,15 +6,8 @@
 
 const {
   statusAnswerValidation,
-  encodeDataValidation,
 } = require('../services/validations/helpers');
 
-
-const parseError = (err) => {
-  // console.log('!!!!', err);
-  if (err.isJoi) { return err.details[0]; }
-  return JSON.stringify(err, Object.getOwnPropertyNames(err));
-};
 
 /**
  * statusAnswer() - возвращает клиенту подготовленный объект с данными

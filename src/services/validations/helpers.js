@@ -27,8 +27,6 @@ const statusAnswerValidation = async (error, status, text, value) => {
       .required(),
 
     value: Joi.alternatives().try(Joi.string(), Joi.object(), Joi.array()).allow(null),
-    // value: Joi.string()
-    //   .allow(null),
   });
 
   try {
@@ -38,8 +36,9 @@ const statusAnswerValidation = async (error, status, text, value) => {
 
     return result;
   } catch (err) {
-    const logInfo = JSON.stringify({ catchError: err.details });
+    const logInfo = JSON.stringify({ catchError: err.stack });
     loggerFunction('statusAnswerValidation', filePath, logInfo, 'warn');
+
     return { catchError: err.details };
   }
 };
