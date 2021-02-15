@@ -1,12 +1,21 @@
+
 /**
  * File: logger.js
  * -----------------
  * Логирование данных.
  */
-const { LOG } = require ('../settings/folderPath');
-
 const moment = require('moment-timezone');
+const fs = require('fs');
 const path = require('path');
+
+const { LOG, CORE } = require ('../settings/folderPath');
+
+const dir = `${CORE}/log`;
+
+if (!fs.existsSync(dir)){
+  fs.mkdirSync(dir);
+}
+
 
 const opts = {
   logDirectory: path.join(`${LOG}`),
@@ -29,45 +38,47 @@ const log = require('simple-node-logger').createRollingFileLogger(opts);
  * trace, debug, info, warn, error, fatal
  */
 const loggerFunction = (logName, filePath, logData, logLevel) => {
-  log.setLevel('trace');
+  try {
+    log.setLevel('trace');
 
-  let logDataResult;
+    let logDataResult = null;
 
-  if (typeof logData === 'object') {
-    logDataResult = JSON.stringify(logData);
-  } else {
-    logDataResult = logData;
+    if (logData.hasOwnProperty('catchError')) {
+      logDataResult = logData;
+    } else if (typeof logData === 'object') {
+      logDataResult = JSON.stringify(logData);
+    } else {
+      logDataResult = logData;
+    }
+
+    const logText = `| ${logName} | Path to file: ${filePath} | Log data: ${logDataResult} | Acepted at ${moment().tz('Europe/Kaliningrad').format()}`;
+
+    switch (logLevel) {
+      case 'trace':
+        log.trace(logText);
+        break;
+      case 'debug':
+        log.debug(logText);
+        break;
+      case 'info':
+        log.info(logText);
+        break;
+      case 'warn':
+        log.warn(logText);
+        break;
+      case 'error':
+        log.error(logText);
+        break;
+      case 'fatal':
+        log.fatal(logText);
+        break;
+      default:
+        log.error('unknown logLevel');
+        break;
+    }
+  } catch (e) {
+    console.error('services/logger/error: \n', e);
   }
-
-  const logText = `| ${logName} | Path to file: ${filePath} | Log data: ${logDataResult} | Acepted at ${moment().tz('Europe/Kaliningrad').format()}`;
-
-  switch (logLevel) {
-    case 'trace':
-      log.trace(logText);
-      break;
-    case 'debug':
-      log.debug(logText);
-      break;
-    case 'info':
-      log.info(logText);
-      break;
-    case 'warn':
-      log.warn(logText);
-      break;
-    case 'error':
-      log.error(logText);
-      break;
-    case 'fatal':
-      log.fatal(logText);
-      break;
-    default:
-      log.error('unknown logLevel');
-      break;
-  }
-
-  // Отобразить что-нибудь из лога в консоль
-  // const appender = log.getAppenders()[0];
-  // console.log('logLevel: ', logLevel, 'write to file: ', appender.__protected().currentFile);
 };
 
 module.exports = loggerFunction;

@@ -1,8 +1,11 @@
 /node_modules/
 /playground
+
+*.idea
 *.env
 *.log
 *.rest
 dist
 coverage
 /src/config
+/src/log
